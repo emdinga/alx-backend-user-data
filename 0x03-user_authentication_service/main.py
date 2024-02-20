@@ -50,13 +50,15 @@ def profile_logged(session_id: str) -> None:
 def log_out(session_id: str) -> None:
     """Log out."""
     cookies = {"_my_session_id": session_id}
-    response = requests.delete(f"{BASE_URL}/auth_session/logout", cookies=cookies)
+    response = requests.delete(
+            f"{BASE_URL}/auth_session/logout", cookies=cookies)
     assert response.status_code == 200
 
 
 def reset_password_token(email: str) -> str:
     """Reset password and obtain reset token."""
-    response = requests.post(f"{BASE_URL}/auth_session/reset_password", json={"email": email})
+    response = requests.post(
+            f"{BASE_URL}/auth_session/reset_password", json={"email": email})
     assert response.status_code == 200
     return response.json()["reset_token"]
 
@@ -64,9 +66,13 @@ def reset_password_token(email: str) -> str:
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     """Update password using reset token."""
     response = requests.put(
-        f"{BASE_URL}/auth_session/reset_password",
-        json={"email": email, "reset_token": reset_token, "new_password": new_password}
-    )
+            f"{BASE_URL}/auth_session/reset_password",
+            json={
+                "email": email,
+                "reset_token": reset_token,
+                "new_password": new_password
+                }
+            )
     assert response.status_code == 200
 
 
